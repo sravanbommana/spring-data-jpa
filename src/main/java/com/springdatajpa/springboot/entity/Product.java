@@ -5,22 +5,39 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(
 		name="products", 
-		schema="ecommerce",
-		uniqueConstraints = {
-				@UniqueConstraint(
-						name = "sku_unique",
-						columnNames = "sku"
-				)
-		}
+		schema="ecommerce"
 )
 public class Product {
+	
+	/***************************************************************************************************
+	 * 4 strategies -> AUTO, IDENTITY, SEQUENCE, TABLE
+	 * AUTO -     This will use dialect default strategy, in mysql it will use SEQUENCE strategy. 
+	 * IDENTITY - This will relies on an auto-incremented database column and lets the database generate 
+	 * 			  a new value with each insert operation.
+	 * SEQUENCE - This is the most widely used generation Strategy
+	 * TABLE -    Rarely used
+	 ***************************************************************************************************/
+	
+	// @GeneratedValue(strategy=GenerationType.IDENTITY) 
+	// @GeneratedValue(strategy=GenerationType.AUTO) 
+	// @GeneratedValue(strategy=GenerationType.TABLE) 
+
 	@jakarta.persistence.Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="product_generator")
+	@SequenceGenerator(
+			name="product_generator",
+			sequenceName="product_sequence_name",
+			allocationSize=1
+	)
 	private Long Id;
 	private String sku;
 	@Column(name="product_name", nullable=false)
