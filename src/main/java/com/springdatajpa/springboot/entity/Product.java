@@ -3,22 +3,17 @@ package com.springdatajpa.springboot.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(
-		name="products", 
-		schema="ecommerce",
-		uniqueConstraints = {
-				@UniqueConstraint(
-						name = "sku_unique",
-						columnNames = "sku"
-				)
-		}
-)
+@Table(name="products", schema="ecommerce")
+
 public class Product {
 	@jakarta.persistence.Id
 	private Long Id;
@@ -29,7 +24,11 @@ public class Product {
 	private BigDecimal price;
 	private boolean active;
 	private String imageUrl;
+	
+	@CreationTimestamp
 	private LocalDateTime dateCreated;
+	
+	@UpdateTimestamp
 	private LocalDateTime lastUpdated;
 
 	public Long getId() {
